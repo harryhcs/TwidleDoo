@@ -1,26 +1,25 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
 
-import {PersistGate} from 'redux-persist/integration/react';
 import {Provider} from 'react-redux';
 
-import {store, persistor} from './store/configureStore';
+import store from './store';
 
 import TodoList from './components/Todo/list';
 import CompletedList from './components/Todo/complete';
+import AddTodo from './components/Todo/add';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <SafeAreaView>
-          <View style={styles.header}>
-            <Text style={styles.title}>TwidleDoo's</Text>
-          </View>
-          <TodoList />
-          <CompletedList />
-        </SafeAreaView>
-      </PersistGate>
+      <SafeAreaView>
+        <View style={styles.header}>
+          <Text style={styles.title}>TwidleDoo's</Text>
+        </View>
+        <AddTodo />
+        <TodoList />
+        <CompletedList />
+      </SafeAreaView>
     </Provider>
   );
 };

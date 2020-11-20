@@ -9,15 +9,12 @@ import {
 } from 'react-native';
 
 import CheckCircle from '../CheckCircle';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../store/rootReducer';
 
 interface TotoItem {
   item: any;
 }
-interface State {
-  state: any; 
-}
-
 
 const Item = ({item}: TotoItem) => (
   <View style={styles.item}>
@@ -27,7 +24,10 @@ const Item = ({item}: TotoItem) => (
 );
 
 const TodoList = () => {
-  const {todos} = useSelector(({state}: State) => state.todos);
+  // const todoList = useSelector(({state}) => todos);
+  const selectTodos = (state: RootState) => state.todos;
+  const todos = useSelector(selectTodos).todos;
+
   const renderItem = ({item}: TotoItem) => <Item item={item} />;
   return (
     <>
