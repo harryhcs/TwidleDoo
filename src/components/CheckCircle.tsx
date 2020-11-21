@@ -1,13 +1,21 @@
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
+import {toggleTodo} from '../store/todos/actions';
+import {useDispatch} from 'react-redux';
 
-interface Complete {
+interface Props {
   complete: boolean;
+  id: string;
 }
 
-const CheckCircle = ({complete}: Complete) => {
+const CheckCircle = ({complete, id}: Props) => {
+  const dispatch = useDispatch();
+  const handleToggleTodo = () => {
+    dispatch(toggleTodo(complete, id));
+  };
   return (
     <TouchableOpacity
+      onPress={handleToggleTodo}
       style={complete ? styles.fullCircle : styles.emptyCircle}
     />
   );

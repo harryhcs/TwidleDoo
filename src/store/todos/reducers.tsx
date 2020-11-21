@@ -17,7 +17,7 @@ export function todoReducer(
       return {
         todos: state.todos.map((todo) =>
           todo.id === action.meta.id
-            ? {...todo, completed: !todo.complete}
+            ? {...todo, complete: !todo.complete}
             : todo,
         ),
       };

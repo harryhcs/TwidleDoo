@@ -11,38 +11,51 @@ import {
 import CheckCircle from '../CheckCircle';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../store/rootReducer';
-
+import CompleteList from './complete';
 interface TotoItem {
   item: any;
 }
 
-const Item = ({item}: TotoItem) => (
-  <View style={styles.item}>
-    <CheckCircle complete={item.complete} />
-    <Text style={styles.title}>{item.title}</Text>
-  </View>
-);
+interface Props {
+  complete: boolean;
+}
 
-const TodoList = () => {
-  // const todoList = useSelector(({state}) => todos);
-  const selectTodos = (state: RootState) => state.todos;
-  const todos = useSelector(selectTodos).todos;
-
-  const renderItem = ({item}: TotoItem) => <Item item={item} />;
+const Item = ({item}: TotoItem) => {
   return (
-    <>
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          data={todos}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-      </SafeAreaView>
-    </>
+    <View style={styles.item}>
+      <CheckCircle complete={item.complete} id={item.id} />
+      <Text style={styles.title}>{item.title}</Text>
+    </View>
   );
 };
 
+const TodoList = (props: Props) => {
+  const selectTodos = (state: RootState) => state.todos;
+  const todos = useSelector(selectTodos).todos.filter(
+    (todo) => todo.complete === props.complete,
+  );
+  const renderItem = ({item}: TotoItem) => <Item item={item} />;
+
+  if (todos.length) {
+    return (
+      <>
+        <SafeAreaView style={styles.container}>
+          <FlatList
+            data={todos}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        </SafeAreaView>
+      </>
+    );
+  }
+  return <CompleteList />;
+};
+
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
   container: {
     marginTop: StatusBar.currentHeight || 0,
     marginHorizontal: 35,
